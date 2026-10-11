@@ -1,0 +1,4 @@
+/* Japanese strings (UI + content names). Add a new language by copying this file. */
+I18N.add('ja',{title:'COIN MIRROR',howto:'WASD/矢印:移動 / マウス:照準 / 左クリック・Space:発射 / 1〜8・ホイール:弾切替 / Q:アクティブ / 右クリック・P:ポーズ(弾の割り当て変更)。収集フェーズでコインを撃ち、回避フェーズでは過去の自分(右の半透明の敵)の弾を避けます。',start:'スタート',retry:'もう一度',resume:'再開',round:'ラウンド',collect:'収集',dodge:'回避',hp:'HP',coins:'残り',score:'獲得コイン',slots:'ショートカット',owned:'所持している弾',items:'アイテム',pick:'報酬を1つ選択',next:'次のラウンドへ',over:'ゲームオーバー',empty:'(空)',passive:'パッシブ',active:'アクティブ',paused:'ポーズ中',slotHint:'スロットを選び、下の弾をクリックで割り当て',
+ 'b.normal':'ノーマル','b.normal.d':'基本の弾','b.spread':'拡散','b.spread.d':'5方向に広がる','b.pierce':'貫通','b.pierce.d':'コインを貫通する高速弾','b.homing':'誘導','b.homing.d':'近くのコインを追う','b.laser':'レーザー','b.laser.d':'瞬間的な直線ビーム',
+ 'i.boots':'ブーツ','i.boots.d':'移動速度 +25%','i.rapid':'ラピッド','i.rapid.d':'連射間隔 -30%','i.heart':'ハート','i.heart.d':'最大HP +1','i.dash':'ダッシュ','i.dash.d':'Qで短く加速(無敵)'});
