@@ -3,18 +3,18 @@
 const SPR={};
 function spr(col,r,en){const k=col+'|'+r+'|'+(en?1:0);let c=SPR[k];if(!c){const s=Math.ceil(r*2+6);c=SPR[k]=document.createElement('canvas');c.width=c.height=s;const x=c.getContext('2d');
   x.fillStyle=col||'#fff';x.beginPath();x.arc(s/2,s/2,r,0,7);x.fill();if(en){x.strokeStyle='#ff5d73';x.lineWidth=2;x.stroke()}}return c}
-function ship(x,y,a,col,al){ctx.save();ctx.translate(x,y);ctx.rotate(a);ctx.globalAlpha=al;ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(13,0);ctx.lineTo(-9,-8);ctx.lineTo(-5,0);ctx.lineTo(-9,8);ctx.closePath();ctx.fill();ctx.restore()}
+function ship(x,y,a,col,al,s=1){ctx.save();ctx.translate(x,y);ctx.rotate(a);ctx.scale(s,s);ctx.globalAlpha=al;ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(13,0);ctx.lineTo(-9,-8);ctx.lineTo(-5,0);ctx.lineTo(-9,8);ctx.closePath();ctx.fill();ctx.restore()}
 function draw(){
   ctx.fillStyle='#0b0d16';ctx.fillRect(0,0,W,H);
   ctx.strokeStyle='#232943';ctx.setLineDash([6,8]);ctx.beginPath();ctx.moveTo(W/2,0);ctx.lineTo(W/2,H);ctx.stroke();ctx.setLineDash([]);
   if(!G.p)return;
   for(const c of G.coins){ctx.fillStyle='#ffc83d';ctx.beginPath();ctx.arc(c.x,c.y,c.r,0,7);ctx.fill();ctx.fillStyle='#b8860b';ctx.beginPath();ctx.arc(c.x,c.y,c.r*.5,0,7);ctx.fill()}
-  if(G.phase==='dodge'){const T=G.tl;for(let j=G.tlo;T[j]&&T[j].f0<=G.fr+CFG.tele;j++){const q=T[j],k=1-(q.f0-G.fr)/CFG.tele; // 発射1秒前の予告
+  if(G.phase==='dodge'){const T=G.tl;for(let j=G.tlo;T[j]&&T[j].f0<=G.fr+CFG.tele;j++){const q=T[j],k=1-(q.f0-G.fr)/CFG.tele; // 発射1秒前の予告(発射時の敵の位置から)
     ctx.save();ctx.globalAlpha=.12+.5*k;ctx.strokeStyle=q.col;ctx.lineWidth=1.5;ctx.setLineDash([8,8]);ctx.beginPath();
-    if(q.P){const P=q.P;ctx.moveTo(P[0],P[1]);for(let i=2;i<P.length;i+=2)ctx.lineTo(P[i],P[i+1])}
+    if(q.P){const P=q.P;ctx.moveTo(q.ox+P[0],q.oy+P[1]);for(let i=2;i<P.length;i+=2)ctx.lineTo(q.ox+P[i],q.oy+P[i+1])}
     else{ctx.moveTo(q.x,q.y);ctx.lineTo(q.x+Math.cos(q.a)*q.len,q.y+Math.sin(q.a)*q.len)}
     ctx.stroke();ctx.setLineDash([]);ctx.beginPath();ctx.arc(q.x,q.y,6+8*(1-k),0,7);ctx.stroke();ctx.restore()}}
-  if(G.phase==='dodge')for(const gh of G.ghosts){const f=gh.rec.f[G.fr];if(f)ship(W-f[0],f[1],Math.PI-f[2],'#ff5d73',.35)}
+  if(G.phase==='dodge'&&G.en){const i=3*G.fr;ship(G.en[i],G.en[i+1],G.en[i+2],'#ff5d73',.55,1.8)} // 敵は1体(体の当たり判定なし)
   for(const m of G.beams){ctx.strokeStyle=m.col;ctx.lineWidth=m.life>5?6:2;ctx.beginPath();ctx.moveTo(m.x,m.y);ctx.lineTo(m.x+Math.cos(m.a)*1100,m.y+Math.sin(m.a)*1100);ctx.stroke()}
   for(const b of G.bul){const c=spr(b.col,b.r);ctx.drawImage(c,b.x-c.width/2,b.y-c.height/2)}
   if(G.phase==='dodge')for(const e of G.act){
@@ -31,4 +31,3 @@ function draw(){
   if(G.fr<90){ctx.globalAlpha=1-G.fr/90;ctx.font='bold 44px system-ui,sans-serif';ctx.textAlign='center';ctx.fillStyle=G.phase==='collect'?'#ffc83d':'#ff5d73';
     ctx.fillText(G.phase==='collect'?`${t('collect')}  x${G.quota}`:t('dodge'),W/2,H/2);ctx.globalAlpha=1}
 }
-
